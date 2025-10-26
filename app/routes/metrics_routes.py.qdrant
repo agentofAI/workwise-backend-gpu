@@ -1,0 +1,80 @@
+"""Routes for aggregate metrics"""
+from fastapi import APIRouter, HTTPException
+from app.models.jira_schema import MetricsResponse
+from app.services.vector_store import vector_store
+from app.services.data_ingestion import DataIngestionService
+from app.utils.logger import setup_logger
+from datetime import datetime
+import pandas as pd
+
+logger = setup_logger(__name__)
+router = APIRouter()
+
+@router.get("/metrics", response_model=MetricsResponse)
+async def get_metrics():
+    """
+    Get aggregate metrics from Jira data
+    
+    - Average resolution time
+    - Open/closed ticket counts
+    - SLA compliance percentage
+    """
+    try:
+        logger.info("Calculating metrics...")
+        
+        # Get collection info
+        info = vector_store.get_collection_info()
+        total_tickets = info.get('vectors_count', 0)
+        
+        if total_tickets == 0:
+            raise HTTPException(status_code=404, detail="No data available. Please ingest data first.")
+        
+        # For MVP, retrieve sample of tickets to calculate metrics
+        # In production, this would query all tickets or use aggregated stats
+        from app.services.retriever import retriever
+        sample_results = retriever.retrieve("all tickets", top_k=100)
+        
+        if not sample_results:
+            raise HTTPException(status_code=404, detail="Unable to retrieve metrics data")
+        
+        payloads = [r['payload'] for r in sample_results]
+        
+        # Calculate metrics
+        open_tickets = sum(1 for p in payloads if p.get('status') in ['Open', 'In Progress', 'To Do'])
+        closed_tickets = sum(1 for p in payloads if p.get('status') in ['Closed', 'Done', 'Resolved'])
+        
+        # Calculate average resolution time
+        resolution_times = []
+        for p in payloads:
+            if p.get('created_date') and p.get('resolved_date'):
+                try:
+                    created = pd.to_datetime(p['created_date'])
+                    resolved = pd.to_datetime(p['resolved_date'])
+                    delta = (resolved - created).days
+                    if delta >= 0:
+                        resolution_times.append(delta)
+                except:
+                    pass
+        
+        avg_resolution = sum(resolution_times) / len(resolution_times) if resolution_times else 0
+        avg_resolution_str = f"{avg_resolution:.1f} days"
+        
+        # Calculate SLA compliance (simplified: tickets resolved within 5 days)
+        sla_threshold = 5
+        sla_compliant = sum(1 for t in resolution_times if t <= sla_threshold)
+        sla_compliance = (sla_compliant / len(resolution_times) * 100) if resolution_times else 0
+        sla_compliance_str = f"{sla_compliance:.0f}%"
+        
+        return MetricsResponse(
+            avg_resolution_time=avg_resolution_str,
+            open_tickets=open_tickets,
+            closed_tickets=closed_tickets,
+            sla_compliance=sla_compliance_str,
+            total_tickets=total_tickets
+        )
+    
+    except HTTPException:
+        raise
+    except Exception as e:
+        logger.error(f"Metrics calculation failed: {str(e)}")
+        raise HTTPException(status_code=500, detail=str(e))
