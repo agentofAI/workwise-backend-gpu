@@ -11,7 +11,7 @@ gradio_app = gr.Blocks()
 gradio_app.launch = lambda *args, **kwargs: None  # Dummy launch; not used
 
 # Hugging Face expects a variable called `app`
-app = FastAPI(title="WorkWise Backend")
+app = FastAPI(title="WorkWise Backend on ZeroGPU")
 
 @app.get("/")
 def root():
