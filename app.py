@@ -1,3 +1,7 @@
+"""
+WorkWise Backend - Hugging Face ZeroGPU Entry Point
+This file exposes the top-level `app` variable for Hugging Face Spaces.
+"""
 import gradio as gr
 from fastapi import FastAPI
 from app.main import app as fastapi_app  # your existing FastAPI app

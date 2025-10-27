@@ -2,7 +2,8 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from app.config import settings
-from app.routes import ingest_routes, ask_routes, metrics_routes
+from app.routes import ingest_routes, ask_routes, 
+from app.services.vector_store import vector_store
 from app.utils.logger import setup_logger
 
 logger = setup_logger(__name__)
@@ -39,16 +40,21 @@ async def root():
 @app.get("/health")
 async def health_check():
     """Detailed health check"""
-    info = vector_store.get_collection_info()
-    return {
-        "status": "healthy",
-        "index_path": settings.FAISS_INDEX_PATH,
-        "payloads_path": settings.FAISS_PAYLOADS_PATH,
-        "vectors_count": info.get("vectors_count", 0)
+    try:
+        info = vector_store.get_collection_info()
+        return {
+            "status": "healthy",
+            "index_path": settings.FAISS_INDEX_PATH,
+            "payloads_path": settings.FAISS_PAYLOADS_PATH,
+            "vectors_count": info.get("vectors_count", 0)
 
-        #"qdrant_url": settings.QDRANT_URL,
-        #"collection": settings.QDRANT_COLLECTION_NAME
-    }
+            #"qdrant_url": settings.QDRANT_URL,
+            #"collection": settings.QDRANT_COLLECTION_NAME
+        }
+    
+    except Exception as e:
+        logger.error(f"Health check failed: {e}")
+        return {"status": "error", "message": str(e)}
 
 # This is needed only when this was a Docker Space. Remove for Gradio
 '''
