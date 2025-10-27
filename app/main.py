@@ -2,7 +2,7 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from app.config import settings
-from app.routes import ingest_routes, ask_routes, 
+from app.routes import ingest_routes, ask_routes, metrics_routes
 from app.services.vector_store import vector_store
 from app.utils.logger import setup_logger
 
