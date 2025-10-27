@@ -8,7 +8,7 @@ from app.utils.logger import setup_logger
 logger = setup_logger(__name__)
 
 app = FastAPI(
-    title="WorkWise API",
+    title="WorkWise Backend",
     description="RAG-powered Jira analytics application",
     version="1.0.0"
 )
@@ -50,6 +50,8 @@ async def health_check():
         #"collection": settings.QDRANT_COLLECTION_NAME
     }
 
+# This is needed only when this was a Docker Space. Remove for Gradio
+'''
 if __name__ == "__main__":
     import uvicorn
     uvicorn.run(
@@ -59,3 +61,4 @@ if __name__ == "__main__":
         reload=True,
         log_level=settings.LOG_LEVEL
     )
+'''
