@@ -10,6 +10,7 @@ logger = setup_logger(__name__)
 router = APIRouter()
 
 @router.post("/ingest", response_model=IngestResponse)
+@spaces.GPU
 async def ingest_data(request: IngestRequest):
     """
     Ingest Jira data from CSV/JSON file

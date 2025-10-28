@@ -9,6 +9,7 @@ logger = setup_logger(__name__)
 router = APIRouter()
 
 @router.get("/metrics", response_model=MetricsResponse)
+@spaces.GPU
 async def get_metrics():
     """
     Get aggregate metrics from Jira data

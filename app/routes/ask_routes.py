@@ -11,6 +11,7 @@ logger = setup_logger(__name__)
 router = APIRouter()
 
 @router.post("/ask", response_model=QueryResponse)
+@spaces.GPU
 async def ask_question(request: QueryRequest):
     """
     Answer natural language questions using RAG
