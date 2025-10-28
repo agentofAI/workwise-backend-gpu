@@ -4,6 +4,7 @@ from app.models.jira_schema import MetricsResponse
 from app.services.vector_store import vector_store
 from app.utils.logger import setup_logger
 import pandas as pd
+import spaces
 
 logger = setup_logger(__name__)
 router = APIRouter()
