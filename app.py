@@ -1,3 +1,4 @@
+import spaces
 import gradio as gr
 from fastapi import FastAPI
 from fastapi.responses import JSONResponse
