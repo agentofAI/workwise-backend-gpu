@@ -7,7 +7,8 @@ app = FastAPI()
 @spaces.GPU
 def your_gpu_function(input_data):
     # Your GPU computation
-    return result
+    return {"message": "FastAPI is working"}
+    #return result
 
 # FastAPI endpoint
 @app.get("/api/predict")

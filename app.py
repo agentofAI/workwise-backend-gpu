@@ -1,24 +1,26 @@
 import gradio as gr
 from fastapi import FastAPI
+import spaces
 
-# Minimal FastAPI
 app = FastAPI()
 
-@app.get("/health")
-async def health():
-    return {"status": "ok"}
-
-@app.get("/test")
-async def test():
+@spaces.GPU
+def your_gpu_function(input_data):
+    # Your GPU computation
     return {"message": "FastAPI is working"}
+    #return result
 
-# Minimal Gradio
-def echo(text):
-    return f"You said: {text}"
+# FastAPI endpoint
+@app.get("/api/predict")
+async def predict(input: str):
+    result = your_gpu_function(input)
+    return {"result": result}
 
-demo = gr.Interface(fn=echo, inputs="text", outputs="text")
+# Gradio interface (required for ZeroGPU)
+with gr.Blocks() as demo:
+    gr.Interface(fn=your_gpu_function, inputs="text", outputs="text")
 
-# Mount and get the app back
+# Mount FastAPI to Gradio
 app = gr.mount_gradio_app(app, demo, path="/")
 
 if __name__ == "__main__":
