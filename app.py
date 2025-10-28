@@ -23,4 +23,4 @@ with gr.Blocks() as demo:
 app = gr.mount_gradio_app(app, demo, path="/")
 
 if __name__ == "__main__":
-    demo.launch()
+    demo.launch(ssr_mode=False)
