@@ -1,26 +1,16 @@
 import gradio as gr
-from fastapi import FastAPI
 import spaces
-
-app = FastAPI()
+from fastapi import FastAPI
+import uvicorn
+from threading import Thread
 
 @spaces.GPU
-def your_gpu_function(input_data):
-    # Your GPU computation
+def process(data):
+    # Your GPU logic
     return result
 
-# FastAPI endpoint
-@app.get("/api/predict")
-async def predict(input: str):
-    result = your_gpu_function(input)
-    return {"result": result}
+# Minimal Gradio UI
+demo = gr.Interface(fn=process, inputs="text", outputs="text")
 
-# Gradio interface (required for ZeroGPU)
-with gr.Blocks() as demo:
-    gr.Interface(fn=your_gpu_function, inputs="text", outputs="text")
-
-# Mount FastAPI to Gradio
-app = gr.mount_gradio_app(app, demo, path="/")
-
-if __name__ == "__main__":
-    demo.launch()
+# Launch Gradio (keeps space alive)
+demo.launch(server_name="0.0.0.0", server_port=7860)
