@@ -6,12 +6,13 @@ from app.services.generator import generator
 from app.utils.response_builder import build_query_response, extract_chart_intent
 from app.utils.logger import setup_logger
 from collections import Counter
+import spaces
 
 logger = setup_logger(__name__)
 router = APIRouter()
 
-@router.post("/ask", response_model=QueryResponse)
 @spaces.GPU
+@router.post("/ask", response_model=QueryResponse)
 async def ask_question(request: QueryRequest):
     """
     Answer natural language questions using RAG
