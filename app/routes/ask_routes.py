@@ -8,11 +8,9 @@ from app.utils.response_builder import build_query_response, extract_chart_inten
 from app.utils.logger import setup_logger
 from collections import Counter
 
-
 logger = setup_logger(__name__)
 router = APIRouter()
 
-@spaces.GPU
 @router.post("/ask", response_model=QueryResponse)
 async def ask_question(request: QueryRequest):
     """

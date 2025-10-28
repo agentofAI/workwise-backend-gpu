@@ -10,7 +10,6 @@ from app.utils.logger import setup_logger
 logger = setup_logger(__name__)
 router = APIRouter()
 
-@spaces.GPU
 @router.post("/ingest", response_model=IngestResponse)
 async def ingest_data(request: IngestRequest):
     """

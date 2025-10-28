@@ -9,7 +9,6 @@ import pandas as pd
 logger = setup_logger(__name__)
 router = APIRouter()
 
-@spaces.GPU
 @router.get("/metrics", response_model=MetricsResponse)
 async def get_metrics():
     """
