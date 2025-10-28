@@ -1,27 +1,34 @@
 import gradio as gr
 from fastapi import FastAPI
-import spaces
+from fastapi.responses import JSONResponse
 
-app = FastAPI()
+# Step 1: Create a simple function
+def simple_function(text):
+    return f"Echo: {text}"
 
-@spaces.GPU
-def your_gpu_function(input_data):
-    # Your GPU computation
-    return {"message": "FastAPI is working"}
-    #return result
+# Step 2: Create Gradio interface
+demo = gr.Interface(
+    fn=simple_function,
+    inputs=gr.Textbox(label="Input"),
+    outputs=gr.Textbox(label="Output")
+)
 
-# FastAPI endpoint
-@app.get("/api/predict")
-async def predict(input: str):
-    result = your_gpu_function(input)
-    return {"result": result}
+# Step 3: Get FastAPI app from Gradio
+fastapi_app = demo.app
 
-# Gradio interface (required for ZeroGPU)
-with gr.Blocks() as demo:
-    gr.Interface(fn=your_gpu_function, inputs="text", outputs="text")
+# Step 4: Add FastAPI endpoints AFTER getting the app
+@fastapi_app.get("/health")
+def health_check():
+    return JSONResponse({"status": "healthy", "message": "API is working"})
 
-# Mount FastAPI to Gradio
-app = gr.mount_gradio_app(app, demo, path="/")
+@fastapi_app.get("/api/test")
+def test_endpoint():
+    return JSONResponse({"message": "FastAPI endpoint works!"})
 
+@fastapi_app.post("/api/echo")
+def echo_endpoint(data: dict):
+    return JSONResponse({"echo": data})
+
+# Step 5: Launch
 if __name__ == "__main__":
-    demo.launch(ssr_mode=False)
+    demo.launch()
