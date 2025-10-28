@@ -29,6 +29,15 @@ with gr.Blocks() as demo:
 # Access FastAPI app from Gradio
 app = demo.app
 
+# CORS Middleware
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=settings.ALLOWED_ORIGINS,
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
 # Add your custom routes to Gradio's underlying FastAPI app
 from app.routes import ingest_routes, ask_routes, metrics_routes
 
