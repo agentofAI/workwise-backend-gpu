@@ -3,6 +3,7 @@ from fastapi import FastAPI
 from fastapi.responses import JSONResponse
 
 # Step 1: Create a simple function
+@spaces.GPU
 def simple_function(text):
     return f"Echo: {text}"
 
