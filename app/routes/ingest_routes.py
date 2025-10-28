@@ -1,4 +1,5 @@
 """Routes for data ingestion"""
+import spaces
 from fastapi import APIRouter, HTTPException
 from app.models.jira_schema import IngestRequest, IngestResponse
 from app.services.data_ingestion import DataIngestionService
@@ -9,8 +10,8 @@ from app.utils.logger import setup_logger
 logger = setup_logger(__name__)
 router = APIRouter()
 
-@router.post("/ingest", response_model=IngestResponse)
 @spaces.GPU
+@router.post("/ingest", response_model=IngestResponse)
 async def ingest_data(request: IngestRequest):
     """
     Ingest Jira data from CSV/JSON file

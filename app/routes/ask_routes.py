@@ -1,4 +1,5 @@
 """Routes for RAG queries"""
+import spaces
 from fastapi import APIRouter, HTTPException
 from app.models.jira_schema import QueryRequest, QueryResponse
 from app.services.retriever import retriever
@@ -6,7 +7,7 @@ from app.services.generator import generator
 from app.utils.response_builder import build_query_response, extract_chart_intent
 from app.utils.logger import setup_logger
 from collections import Counter
-import spaces
+
 
 logger = setup_logger(__name__)
 router = APIRouter()

@@ -1,16 +1,16 @@
 """Routes for aggregate metrics"""
+import spaces
 from fastapi import APIRouter, HTTPException
 from app.models.jira_schema import MetricsResponse
 from app.services.vector_store import vector_store
 from app.utils.logger import setup_logger
 import pandas as pd
-import spaces
 
 logger = setup_logger(__name__)
 router = APIRouter()
 
-@router.get("/metrics", response_model=MetricsResponse)
 @spaces.GPU
+@router.get("/metrics", response_model=MetricsResponse)
 async def get_metrics():
     """
     Get aggregate metrics from Jira data
