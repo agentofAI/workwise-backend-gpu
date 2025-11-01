@@ -57,6 +57,7 @@ async def health_check():
         return {"status": "error", "message": str(e)}
 
 # This is needed only when this was a Docker Space. Remove for Gradio
+'''
 if __name__ == "__main__":
     import uvicorn
     uvicorn.run(
@@ -66,3 +67,4 @@ if __name__ == "__main__":
         reload=True,
         log_level=settings.LOG_LEVEL
     )
+'''
