@@ -9,7 +9,7 @@ from app.utils.logger import setup_logger
 logger = setup_logger(__name__)
 
 app = FastAPI(
-    title="WorkWise Backend",
+    title="WorkWise Backend GPU",
     description="RAG-powered Jira analytics application",
     version="1.0.0"
 )
@@ -17,7 +17,7 @@ app = FastAPI(
 # CORS Middleware
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=settings.ALLOWED_ORIGINS,
+    allow_origins=settings.ALLOWED_ORIGINS if hasattr(settings, "ALLOWED_ORIGINS") else ["*"],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
@@ -57,7 +57,6 @@ async def health_check():
         return {"status": "error", "message": str(e)}
 
 # This is needed only when this was a Docker Space. Remove for Gradio
-'''
 if __name__ == "__main__":
     import uvicorn
     uvicorn.run(
@@ -67,4 +66,3 @@ if __name__ == "__main__":
         reload=True,
         log_level=settings.LOG_LEVEL
     )
-'''

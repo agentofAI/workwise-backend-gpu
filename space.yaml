@@ -1,0 +1,33 @@
+# === Hugging Face Space Configuration ===
+
+# We’re using a custom container because this is a GPU FastAPI backend.
+sdk: "docker"
+
+# (Optional metadata)
+title: "WorkWise Backend GPU"
+emoji: "⚙️"
+colorFrom: "blue"
+colorTo: "indigo"
+app_port: 7860        # HF routes traffic through port 7860 inside the container
+pinned: false
+
+# Hardware (HF will spin up a GPU runtime)
+hardware: "gpu"
+
+# Docker build context
+# Hugging Face will automatically build your Dockerfile at repo root
+# (Make sure you have Dockerfile and requirements.txt)
+---
+
+# Optional environment variables (you can also set these from HF UI)
+env:
+  - name: HF_HOME
+    value: /data/huggingface
+  - name: HF_HUB_DISABLE_TELEMETRY
+    value: "1"
+  - name: CUDA_VISIBLE_DEVICES
+    value: "0"
+
+# If your app uses secrets (API keys, vector DB URL), define them via
+# “Settings → Repository secrets” in Hugging Face UI (not here)
+
