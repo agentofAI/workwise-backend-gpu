@@ -8,8 +8,8 @@ class Settings:
     """Application settings loaded from environment variables"""
     
     # Faiss (local) configuration
-    FAISS_INDEX_PATH: str = os.getenv("FAISS_INDEX_PATH", "data/faiss.index")
-    FAISS_PAYLOADS_PATH: str = os.getenv("FAISS_PAYLOADS_PATH", "data/faiss_payloads.json")
+    FAISS_INDEX_PATH: str = os.getenv("FAISS_INDEX_PATH", "./data/faiss.index")
+    FAISS_PAYLOADS_PATH: str = os.getenv("FAISS_PAYLOADS_PATH", "./data/faiss_payloads.json")
 
     # Qdrant Configuration
     QDRANT_URL: str = os.getenv("QDRANT_URL", "http://localhost:6333")
