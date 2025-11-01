@@ -5,6 +5,8 @@ from app.services.vector_store import vector_store
 from app.config import settings
 from app.utils.logger import setup_logger
 
+import numpy as np
+
 logger = setup_logger(__name__)
 
 class RetrieverService:
