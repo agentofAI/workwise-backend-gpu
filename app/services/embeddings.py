@@ -19,8 +19,10 @@ class EmbeddingService:
     
     def embed_text(self, text: str) -> List[float]:
         """Generate embedding for a single text"""
-        embedding = self.model.encode(text, convert_to_numpy=True)
+        embedding = self.model.encode(text, convert_to_numpy=True, normalize_embeddings=True)
+        logger.debug(f"Generated embedding for text: {embedding}")
         return embedding.tolist()
+        
     
     def embed_batch(self, texts: List[str], batch_size: int = 32) -> List[List[float]]:
         """Generate embeddings for a batch of texts"""
@@ -29,12 +31,14 @@ class EmbeddingService:
             texts,
             batch_size=batch_size,
             show_progress_bar=True,
-            convert_to_numpy=True
+            convert_to_numpy=True,
+            normalize_embeddings=True
         )
         return embeddings.tolist()
     
     def get_dimension(self) -> int:
         """Return embedding dimension"""
+        logger.debug(f"Embedding dimension requested: {self.dimension}")
         return self.dimension
 
 # Global instance

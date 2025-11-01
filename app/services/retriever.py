@@ -16,12 +16,15 @@ class RetrieverService:
     
     def retrieve(self, query: str, top_k: int = None) -> List[Dict[str, Any]]:
         """Retrieve relevant documents for a query"""
+        logger.debug(f"top_k: {top_k}")
+        logger.debug(f"User Query: {query}")
         if top_k is None:
             top_k = settings.TOP_K
         
         # Generate query embedding
         logger.info(f"Retrieving documents for query: {query}")
         query_embedding = self.embedding_service.embed_text(query)
+        logger.debug(f"Embedded query: {query_embedding}")
         
         #FAISS
         results = self.vector_store.search(
@@ -29,6 +32,10 @@ class RetrieverService:
             limit=top_k,
             score_threshold=settings.SCORE_THRESHOLD
         )
+
+        logger.debug(f"FAISS total vectors: {index.ntotal}")        
+        D, I =  self.vector_store.index.search(np.array([query_embedding]).astype("float32"), k=3)
+        logger.debug(f"Distances: {D}, Indices: {I}")
 
         #Qdrant
         # Search vector database

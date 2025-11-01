@@ -48,6 +48,7 @@ async def ingest_data(file: UploadFile = File(...)):
         
         # Load data from temporary file
         records = DataIngestionService.load_data(temp_file_path)
+        logger.debug(f"Loaded {len(records)} records from file")
         
         if not records:
             raise HTTPException(status_code=400, detail="No records found in file")
