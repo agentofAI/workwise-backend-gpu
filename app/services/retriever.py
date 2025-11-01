@@ -35,9 +35,24 @@ class RetrieverService:
             score_threshold=settings.SCORE_THRESHOLD
         )
 
+        '''
         logger.debug(f"FAISS total vectors: {self.vector_store.index.ntotal}")        
         D, I =  self.vector_store.index.search(np.array([query_embedding]).astype("float32"), k=3)
         logger.debug(f"Distances: {D}, Indices: {I}")
+        '''
+        try:
+            logger.warning(f"FAISS index object: {self.vector_store.index}")
+            if self.vector_store.index is None:
+                logger.warning("❌ FAISS index is None")
+            else:
+                logger.warning(f"FAISS total vectors: {self.vector_store.index.ntotal}")
+                D, I = self.vector_store.index.search(
+                    np.array([query_embedding]).astype("float32"), k=3
+                )
+                logger.warning(f"Distances: {D}, Indices: {I}")
+        except Exception as e:
+            import traceback
+            logger.error(f"FAISS search error: {e}\n{traceback.format_exc()}")
 
         #Qdrant
         # Search vector database
