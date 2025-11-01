@@ -18,9 +18,16 @@ class JiraTicket(BaseModel):
     issue_type: str = Field(..., description="Type of issue")
     labels: Optional[str] = Field(None, description="Comma-separated labels")
 
+'''
 class IngestRequest(BaseModel):
     """Request model for data ingestion"""
     file_path: str = Field(..., description="Path to Jira data file")
+'''
+
+class IngestResponse(BaseModel):
+    status: str
+    records_indexed: int
+    message: str
 
 class IngestResponse(BaseModel):
     """Response model for data ingestion"""
