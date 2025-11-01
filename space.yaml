@@ -2,6 +2,7 @@
 
 # We’re using a custom container because this is a GPU FastAPI backend.
 sdk: "docker"
+app_file: "app/main.py"
 
 # (Optional metadata)
 title: "WorkWise Backend GPU"
