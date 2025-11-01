@@ -10,6 +10,7 @@ import numpy as np
 
 logger = setup_logger(__name__)
 
+
 def _normalize(vectors: np.ndarray) -> np.ndarray:
     """L2-normalize vectors so inner product equals cosine similarity."""
     norms = np.linalg.norm(vectors, axis=1, keepdims=True) + 1e-12
@@ -24,6 +25,10 @@ class VectorStoreService:
     """
 
     def __init__(self):
+
+        print("FAISS_INDEX_PATH:", settings.FAISS_INDEX_PATH)
+        print("Working directory:", os.getcwd())
+
         self.index: Optional[faiss.Index] = None
         self.dimension: Optional[int] = None
         self.payloads: List[Dict[str, Any]] = []

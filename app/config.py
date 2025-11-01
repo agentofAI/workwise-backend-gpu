@@ -4,12 +4,16 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
+BASE_DIR = "/home/user/app"
+DATA_DIR = os.path.join(BASE_DIR, "data")
+os.makedirs(DATA_DIR, exist_ok=True)
+
 class Settings:
     """Application settings loaded from environment variables"""
     
     # Faiss (local) configuration
-    FAISS_INDEX_PATH: str = os.getenv("FAISS_INDEX_PATH", "/home/user/app/workwise/data/faiss.index")
-    FAISS_PAYLOADS_PATH: str = os.getenv("FAISS_PAYLOADS_PATH", "/home/user/app/workwise/data/faiss_payloads.json")
+    FAISS_INDEX_PATH: str = os.getenv("DATA_DIR", "faiss.index")
+    FAISS_PAYLOADS_PATH: str = os.getenv("DATA_DIR", "faiss_payloads.json")
 
     # Qdrant Configuration
     QDRANT_URL: str = os.getenv("QDRANT_URL", "http://localhost:6333")
