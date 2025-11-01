@@ -20,7 +20,7 @@ class EmbeddingService:
     def embed_text(self, text: str) -> List[float]:
         """Generate embedding for a single text"""
         embedding = self.model.encode(text, convert_to_numpy=True, normalize_embeddings=True)
-        logger.debug(f"Generated embedding for text: {embedding}")
+        #logger.debug(f"Generated embedding for text: {embedding}")
         return embedding.tolist()
         
     

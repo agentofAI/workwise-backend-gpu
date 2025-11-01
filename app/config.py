@@ -25,7 +25,9 @@ class Settings:
     HF_TOKEN: str = os.getenv("HF_TOKEN", "")
     
     # Embedding Model
-    EMBEDDING_MODEL: str = os.getenv("EMBEDDING_MODEL", "sentence-transformers/all-MiniLM-L6-v2")
+    #EMBEDDING_MODEL: str = os.getenv("EMBEDDING_MODEL", "sentence-transformers/all-MiniLM-L6-v2")
+    #EMBEDDING_MODEL: str = os.getenv("EMBEDDING_MODEL", "sentence-transformers/multi-qa-MiniLM-L6-cos-v1")
+    EMBEDDING_MODEL: str = os.getenv("EMBEDDING_MODEL", "BAAI/bge-small-en-v1.5")
     
     # Server Configuration
     HOST: str = os.getenv("HOST", "0.0.0.0")
@@ -37,6 +39,6 @@ class Settings:
     
     # Vector Search
     TOP_K: int = 5
-    SCORE_THRESHOLD: float = 0.5
+    SCORE_THRESHOLD: float = 0.0
 
 settings = Settings()
