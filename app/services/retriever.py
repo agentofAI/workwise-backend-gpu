@@ -33,7 +33,7 @@ class RetrieverService:
             score_threshold=settings.SCORE_THRESHOLD
         )
 
-        logger.debug(f"FAISS total vectors: {index.ntotal}")        
+        logger.debug(f"FAISS total vectors: {self.vector_store.index.ntotal}")        
         D, I =  self.vector_store.index.search(np.array([query_embedding]).astype("float32"), k=3)
         logger.debug(f"Distances: {D}, Indices: {I}")
 
