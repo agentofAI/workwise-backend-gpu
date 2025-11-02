@@ -25,8 +25,8 @@ class RetrieverService:
         
         # Generate query embedding
         logger.info(f"Retrieving documents for query: {query}")
-        query_embedding = self.embedding_service.embed_text(query)
-        logger.debug(f"Embedded query: {query_embedding}")
+        query_embedding = self.embedding_service.embed_text(query,is_query=True)
+        #logger.debug(f"Embedded query: {query_embedding}")
         
         #FAISS
         results = self.vector_store.search(
@@ -36,10 +36,6 @@ class RetrieverService:
         )
 
         '''
-        logger.debug(f"FAISS total vectors: {self.vector_store.index.ntotal}")        
-        D, I =  self.vector_store.index.search(np.array([query_embedding]).astype("float32"), k=3)
-        logger.debug(f"Distances: {D}, Indices: {I}")
-        '''
         try:
             logger.warning(f"FAISS index object: {self.vector_store.index}")
             if self.vector_store.index is None:
@@ -47,12 +43,13 @@ class RetrieverService:
             else:
                 logger.warning(f"FAISS total vectors: {self.vector_store.index.ntotal}")
                 D, I = self.vector_store.index.search(
-                    np.array([query_embedding]).astype("float32"), k=3
+                    np.array([query_embedding]).astype("float32"), k=top_k
                 )
                 logger.warning(f"Distances: {D}, Indices: {I}")
         except Exception as e:
             import traceback
             logger.error(f"FAISS search error: {e}\n{traceback.format_exc()}")
+        ''' 
 
         #Qdrant
         # Search vector database
@@ -60,8 +57,7 @@ class RetrieverService:
         #     query_vector=query_embedding,
         #     limit=top_k,
         #     score_threshold=settings.SCORE_THRESHOLD
-        # )            
-
+        # ) 
         
         logger.info(f"Retrieved {len(results)} documents")
         return results
