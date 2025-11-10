@@ -54,7 +54,7 @@ async def get_metrics():
         issue_type_col = get_col(["issue type", "issuetype"])
 
         # --- Compute Open/Closed Ticket Counts ---
-        open_statuses = {'Needs Triage', 'In Progress', 'Short Term Backlog', 'Gathering Interest', 'Gathering Impact'}        
+        open_statuses = {'Needs Triage', 'In Progress', 'Gathering Interest', 'Gathering Impact', 'Short Term Backlog', 'Long Term Backlog'}        
         open_statuses = {s.lower() for s in open_statuses}
         closed_statuses = {"closed", "done", "resolved"}
 
