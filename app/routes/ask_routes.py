@@ -40,7 +40,7 @@ async def ask_question(request: QueryRequest):
         # Format context
         #context = retriever.format_context(results)
         # Use reranked results for context
-        context = retriever.format_context(context = retriever.format_context(results))
+        context = retriever.format_context(reranked_results)
         
         # Generate answer
         answer = generator.generate_rag_response(request.query, context)
