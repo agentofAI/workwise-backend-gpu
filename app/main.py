@@ -27,6 +27,11 @@ app.add_middleware(
 app.include_router(ingest_routes.router, prefix="/api", tags=["Ingestion"])
 app.include_router(ask_routes.router, prefix="/api", tags=["Query"])
 app.include_router(metrics_routes.router, prefix="/api", tags=["Metrics"])
+app.include_router(debug_routes.router, prefix="/api", tags=["Debug"])
+
+logger.info("✅ Routers initialized:")
+for route in app.routes:
+    logger.info(f" - {route.path}")
 
 @app.get("/")
 async def root():

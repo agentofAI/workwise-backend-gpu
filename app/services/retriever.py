@@ -24,7 +24,7 @@ class RetrieverService:
             top_k = settings.TOP_K
         
         # Generate query embedding
-        logger.info(f"Retrieving documents for query: {query}")
+        logger.info(f"[RETRIEVER] Retrieving documents for query: {query}")
         query_embedding = self.embedding_service.embed_text(query,is_query=True)
         #logger.debug(f"Embedded query: {query_embedding}")
         
@@ -59,7 +59,12 @@ class RetrieverService:
         #     score_threshold=settings.SCORE_THRESHOLD
         # ) 
         
-        logger.info(f"Retrieved {len(results)} documents")
+        logger.info(f"[RETRIEVER] Retrieved {len(results)} documents")
+
+        if results:
+            logger.debug("[RETRIEVER] Raw FAISS top-5 scores: " +
+                 ", ".join(f"{r['score']:.4f}" for r in results[:5]))
+
         return results
     
     def format_context(self, results: List[Dict[str, Any]]) -> str:
