@@ -39,7 +39,7 @@ class EmbeddingService:
     def embed_batch(
         self,
         texts: List[str],
-        batch_size: int = 16,
+        batch_size: int = 32,
         is_query: bool = False,
     ) -> List[List[float]]:
         """Generate embeddings for a batch of texts (queries or passages)."""

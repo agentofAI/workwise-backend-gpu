@@ -40,6 +40,7 @@ async def ask_question(request: QueryRequest):
         # Format context
         #context = retriever.format_context(results)
         # Use reranked results for context
+        ## Bug IO Error
         context = retriever.format_context(reranked_results)
         
         # Generate answer
