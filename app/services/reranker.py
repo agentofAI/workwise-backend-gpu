@@ -9,7 +9,7 @@ class RerankerService:
     Cross-Encoder based re-ranker for improving top-k retrieval precision.
     """
     def __init__(self, model_name: str = "cross-encoder/ms-marco-MiniLM-L-6-v2"):
-        logger.info(f"Loading reranker model: {model_name}")
+        logger.info(f"[RERANKER] Loading reranker model: {model_name}")
         self.model = CrossEncoder(model_name)
     
     def rerank(self, query: str, results: list, top_k: int = 5) -> list:
