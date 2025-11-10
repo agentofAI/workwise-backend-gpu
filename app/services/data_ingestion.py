@@ -65,7 +65,9 @@ class DataIngestionService:
                 record[key] = None
         
         # Create searchable text representation
-        text_fields = ['summary', 'description', 'status', 'priority', 'project']
+        #text_fields = ['summary', 'description', 'status', 'priority', 'project']
+        text_fields = ['summary', 'description', 'status', 'priority', 'project','issue_type', 'component', 'module', 'symptom_severity','assignee', 'reporter']
+
         text_parts = []
         
         for field in text_fields:
