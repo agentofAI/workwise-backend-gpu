@@ -42,6 +42,12 @@ ENV HF_HOME=/home/user/.cache/huggingface \
 # ---- 7️⃣ Healthcheck ---------------------------------------------------------
 HEALTHCHECK CMD curl -f http://localhost:7860/health || exit 1
 
+# ---- 7️⃣ Cleanup  ---------------------------------------------------------
+RUN rm -rf /home/user/.cache/huggingface/hub/models--*mistral*
+RUN rm -rf /home/user/.cache/pip
+
+RUN du -sh /home/user/.cache/huggingface || true
+
 # ---- 8️⃣ Entry Point ---------------------------------------------------------
 EXPOSE 7860
 CMD ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "7860"]
