@@ -22,5 +22,5 @@ qdrant-client==1.7.3       # keep if using Qdrant
 torch #-- choose the right wheel for your CUDA (see Dockerfile notes)
 transformers
 sentence-transformers
-cross-encoders==2.2.2
+cross-encoders
 
