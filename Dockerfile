@@ -10,14 +10,19 @@ RUN apt-get update && apt-get install -y \
 WORKDIR /app
 
 COPY ../requirements.txt .
-RUN pip install --no-cache-dir -r requirements.txt
+RUN pip install -v --no-cache-dir -r requirements.txt
 
 # Pre-download model (faster cold starts)
 RUN python -c "from sentence_transformers import SentenceTransformer; SentenceTransformer('sentence-transformers/all-MiniLM-L6-v2')"
+
+COPY entrypoint.sh /entrypoint.sh
+RUN chmod +x /entrypoint.sh
 
 COPY . .
 
 EXPOSE 7860
 
+ENV RUNPOD_VERBOSE=1
+CMD ["/entrypoint.sh"]
 CMD ["python", "handler.py"]
 # CMD ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "7860"]
