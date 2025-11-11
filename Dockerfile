@@ -23,6 +23,6 @@ COPY . .
 EXPOSE 7860
 
 ENV RUNPOD_VERBOSE=1
-CMD ["/entrypoint.sh"]
-CMD ["python", "handler.py"]
-# CMD ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "7860"]
+#CMD ["/entrypoint.sh"]
+#CMD ["python", "handler.py"]
+CMD ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "7860"]
