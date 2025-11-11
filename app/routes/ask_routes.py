@@ -38,7 +38,7 @@ async def ask_question(request: QueryRequest):
         context = retriever.format_context(results)
 
         # 🧠 Re-rank results        
-        #logger.info("[RERANKER] Starting re-ranking process...")        
+        #logger.info("[RERANKER] Starting re-ranking process....")        
         #reranked_results = reranker.rerank(request.query, results, top_k=5)
         # Format context, Use reranked results for context
         #context = retriever.format_context(reranked_results) # ## Bug IO Error
