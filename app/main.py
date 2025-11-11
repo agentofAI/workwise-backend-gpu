@@ -10,7 +10,7 @@ logger = setup_logger(__name__)
 
 app = FastAPI(
     title="WorkWise Backend GPU",
-    description="RAG-powered Jira analytics application",
+    description="RAG-powered Jira analytics application !!",
     version="1.0.0"
 )
 
