@@ -1,0 +1,8 @@
+runpod
+fastapi==0.109.0
+sentence-transformers
+faiss-cpu
+torch
+transformers
+python-multipart==0.0.6    # if you accept file uploads
+
