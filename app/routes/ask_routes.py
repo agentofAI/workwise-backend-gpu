@@ -4,7 +4,7 @@ from fastapi import APIRouter, HTTPException
 from app.models.jira_schema import QueryRequest, QueryResponse
 from app.services.retriever import retriever
 from app.services.generator import generator
-from app.services.reranker import reranker
+#from app.services.reranker import reranker
 from app.utils.response_builder import build_query_response, extract_chart_intent
 from app.utils.logger import setup_logger
 from collections import Counter
@@ -33,15 +33,15 @@ async def ask_question(request: QueryRequest):
                 sources=[]
             )
         
-        # 🧠 Re-rank results
-        logger.info("[RERANKER] Starting re-ranking process...")
-        reranked_results = reranker.rerank(request.query, results, top_k=5)
+        
+        # Format context                
+        context = retriever.format_context(results)
 
-        # Format context
-        #context = retriever.format_context(results)
-        # Use reranked results for context
-        ## Bug IO Error
-        context = retriever.format_context(reranked_results)
+        # 🧠 Re-rank results        
+        #logger.info("[RERANKER] Starting re-ranking process...")        
+        #reranked_results = reranker.rerank(request.query, results, top_k=5)
+        # Format context, Use reranked results for context
+        #context = retriever.format_context(reranked_results) # ## Bug IO Error
         
         # Generate answer
         answer = generator.generate_rag_response(request.query, context)
