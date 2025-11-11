@@ -1,4 +1,11 @@
-FROM runpod/pytorch:2.1.0-py3.10-cuda11.8.0-runtime
+FROM runpod/pytorch:2.2.0-py3.10-cuda12.1.1-devel-ubuntu22.04
+
+# Install Python
+RUN apt-get update && apt-get install -y \
+    python3.10 \
+    python3-pip \
+    git \
+    && rm -rf /var/lib/apt/lists/*
 
 WORKDIR /app
 
@@ -10,4 +17,7 @@ RUN python -c "from sentence_transformers import SentenceTransformer; SentenceTr
 
 COPY . .
 
+EXPOSE 7860
+
 CMD ["python", "handler.py"]
+# CMD ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "7860"]
